@@ -1,7 +1,10 @@
 <template>
   <div id="app">
-    <PicturePreviewVue>
-    </PicturePreviewVue>
+    <input
+      type="button"
+      value="click"
+      @click="handleClick"
+    >
   </div>
 </template>
 
@@ -14,7 +17,11 @@ export default {
   },
   mounted() {},
   computed: {},
-  methods: {}
+  methods: {
+    handleClick() {
+      this.$PicturePreviewVue()
+    }
+  }
 }
 </script>
 
