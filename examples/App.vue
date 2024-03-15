@@ -1,14 +1,16 @@
 <template>
   <div id="app">
-    <input
-      type="button"
-      value="click"
+    <img
+      class="pic"
+      src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+      alt=""
       @click="handleClick"
     >
   </div>
 </template>
 
 <script>
+import PicturePreviewVue from '../packages/index'
 export default {
   name: 'App',
   components: {},
@@ -19,7 +21,9 @@ export default {
   computed: {},
   methods: {
     handleClick() {
-      this.$PicturePreviewVue()
+      PicturePreviewVue({
+        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+      })
     }
   }
 }
@@ -27,7 +31,10 @@ export default {
 
 <style lang="scss">
 #app {
-  padding: 0 50px;
-  margin: 100px auto;
+  text-align: center;
+}
+.pic {
+  width: 200px;
+  cursor: pointer;
 }
 </style>
