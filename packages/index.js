@@ -9,5 +9,13 @@ export function ImagePreviewUtil({
 }
 
 export default function PicturePreviewVue(data) {
-  ImagePreviewUtil(data)
+  let _data = data
+  if (Object.prototype.toString.call(data) === '[object String]') {
+    // ^ 仅传入一个地址
+    _data = {
+      urlList: [_data],
+      initialIndex: 0
+    }
+  }
+  ImagePreviewUtil(_data)
 }

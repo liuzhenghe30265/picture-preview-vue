@@ -2,7 +2,7 @@
   <div id="app">
     <img
       class="pic"
-      src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+      src="https://file.iviewui.com/images/image-demo-1.jpg"
       alt=""
       @click="handleClick"
     >
@@ -21,8 +21,19 @@ export default {
   computed: {},
   methods: {
     handleClick() {
+      // PicturePreviewVue(
+      //   'https://file.iviewui.com/images/image-demo-1.jpg'
+      // )
       PicturePreviewVue({
-        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+        urlList: [
+          'https://file.iviewui.com/images/image-demo-1.jpg',
+          'https://file.iviewui.com/images/image-demo-2.jpg',
+          'https://file.iviewui.com/images/image-demo-3.jpg',
+          'https://file.iviewui.com/images/image-demo-4.jpg',
+          'https://file.iviewui.com/images/image-demo-5.jpg',
+          'https://file.iviewui.com/images/image-demo-6.jpg'
+        ],
+        initialIndex: 0
       })
     }
   }
