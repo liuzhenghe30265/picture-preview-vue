@@ -33,7 +33,7 @@ export default {
           'https://file.iviewui.com/images/image-demo-5.jpg',
           'https://file.iviewui.com/images/image-demo-6.jpg'
         ],
-        initialIndex: 0
+        initialIndex: 2
       })
     }
   }

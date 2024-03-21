@@ -26,6 +26,8 @@
           @load="handleImgLoad"
           @error="handleImgError"
           @mousedown="handleMouseDown"
+          @touchstart="handleMouseDownMobile"
+          @touchend="handleMouseUpMobile"
         >
       </div>
       <div class="image_preview_actions">
@@ -71,9 +73,6 @@
 </template>
 
 <script>
-/* eslint-disable no-undef */
-/* eslint-disable new-cap */
-/* eslint-disable no-unused-vars */
 import Vue from 'vue'
 const isServer = Vue.prototype.$isServer
 const Mode = {
@@ -128,6 +127,13 @@ export default {
   data() {
     return {
       index: null,
+      imgTop: 0,
+      imgLeft: 0,
+      imgScale: 1,
+      mobileScale: 0, // 手指离开时图片的缩放比例
+      clientX: 0,
+      clientY: 0,
+      start: [{}, {}],
       transform: {
         scale: 1,
         deg: 0,
@@ -172,8 +178,8 @@ export default {
   },
 
   watch: {
-    currentImg(val) {
-      this.$nextTick(_ => {
+    currentImg() {
+      this.$nextTick(() => {
         const $img = this.$refs.img[0]
         if (!$img.complete) {
           this.loading = true
@@ -181,7 +187,7 @@ export default {
       })
     },
     index: {
-      handler: function (val) {
+      handler: function () {
         this.reset()
       }
     },
@@ -208,7 +214,7 @@ export default {
       return function (...args) {
         if (locked) return
         locked = true
-        window.requestAnimationFrame(_ => {
+        window.requestAnimationFrame(() => {
           fn.apply(this, args)
           locked = false
         })
@@ -325,16 +331,82 @@ export default {
       on(document, 'keydown', this._keyDownHandler)
       on(document, mousewheelEventName, this._mouseWheelHandler)
     },
-    handleImgLoad(e) {
+    handleImgLoad() {
       this.loading = false
     },
     handleImgError(e) {
       this.loading = false
       e.target.alt = '加载失败'
     },
+    //缩放，勾股定理方法-求两点之间的距离
+    getDistance(p1, p2) {
+      const x = p2.pageX - p1.pageX,
+        y = p2.pageY - p1.pageY
+      return Math.sqrt(x * x + y * y)
+    },
+    // 图片缩放
+    scaleFunc(num, bool) {
+      if (this.imgScale <= 0.2 && num < 0) return
+      if (bool) {
+        this.imgScale = num
+      } else {
+        this.imgScale += num
+      }
+      this.transform.scale = this.imgScale
+    },
+    // 手指拖动
+    moveFuncMobile(e) {
+      e = e || window.event
+      if (e.touches.length > 1) {
+        const now = e.touches
+        const scale =
+          this.getDistance(now[0], now[1]) /
+          this.getDistance(this.start[0], this.start[1])
+        // 判断是否手指缩放过，如果缩放过，要在上次缩放的比例基础上进行缩放
+        if (this.mobileScale) {
+          if (scale > 1) {
+            // 放大
+            this.scaleFunc(scale + this.mobileScale - 1, true)
+          } else {
+            // 缩小
+            this.scaleFunc(scale * this.mobileScale, true)
+          }
+        } else {
+          this.scaleFunc(scale, true)
+        }
+      } else {
+        const touch = e.touches[0]
+        e.preventDefault()
+        const movementX = touch.pageX - this.clientX
+        const movementY = touch.pageY - this.clientY
+        this.imgLeft += movementX * 2
+        this.imgTop += movementY * 2
+        this.clientX = touch.pageX
+        this.clientY = touch.pageY
+        this.transform.offsetX = this.imgLeft
+        this.transform.offsetY = this.imgTop
+      }
+    },
+    // 手指抬起
+    handleMouseUpMobile() {
+      this.$refs.img[0].ontouchmove = null
+      this.mobileScale = this.imgScale
+    },
+    // 手指按下
+    handleMouseDownMobile(e) {
+      e.preventDefault()
+      e = e || window.event
+      if (e.touches.length > 1) {
+        this.start = e.touches
+      } else {
+        this.clientX = e.touches[0].pageX
+        this.clientY = e.touches[0].pageY
+      }
+      // 添加手指拖动事件
+      this.$refs.img[0].ontouchmove = this.moveFuncMobile
+    },
     handleMouseDown(e) {
       if (this.loading || e.button !== 0) return
-
       const { offsetX, offsetY } = this.transform
       const startX = e.pageX
       const startY = e.pageY
@@ -343,7 +415,7 @@ export default {
         this.transform.offsetY = offsetY + ev.pageY - startY
       })
       on(document, 'mousemove', this._dragHandler)
-      on(document, 'mouseup', ev => {
+      on(document, 'mouseup', () => {
         off(document, 'mousemove', this._dragHandler)
       })
 
