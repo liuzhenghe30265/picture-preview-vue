@@ -1,6 +1,6 @@
 {
   "name": "picture-preview-vue",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "lib/picture-preview-vue.common.js",
   "files": [
     "lib"
