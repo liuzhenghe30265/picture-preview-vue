@@ -2,7 +2,7 @@
 
 picture-preview-vue
 
-![](https://p.ipic.vip/cjifpn.png)
+![](./pic.png)
 
 [Demo](https://liuzhenghe30265.github.io/picture-preview-vue)
 
