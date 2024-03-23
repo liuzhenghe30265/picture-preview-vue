@@ -1,11 +1,18 @@
 <template>
   <div id="app">
-    <img
-      class="pic"
-      src="https://file.iviewui.com/images/image-demo-1.jpg"
-      alt=""
-      @click="handleClick"
-    >
+    <div class="ul">
+      <div
+        v-for="(item, index) of list"
+        :key="index"
+        class="li"
+        @click="handleClick(item)"
+      >
+        <img
+          :src="item"
+          alt=""
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -15,25 +22,25 @@ export default {
   name: 'App',
   components: {},
   data() {
-    return {}
+    return {
+      list: [
+        'https://file.iviewui.com/images/image-demo-1.jpg',
+        'https://file.iviewui.com/images/image-demo-2.jpg',
+        'https://file.iviewui.com/images/image-demo-3.jpg',
+        'https://file.iviewui.com/images/image-demo-4.jpg',
+        'https://file.iviewui.com/images/image-demo-5.jpg',
+        'https://file.iviewui.com/images/image-demo-6.jpg'
+      ]
+    }
   },
-  mounted() {},
   computed: {},
+  mounted() {},
   methods: {
-    handleClick() {
-      // PicturePreviewVue(
-      //   'https://file.iviewui.com/images/image-demo-1.jpg'
-      // )
+    handleClick(url) {
+      // PicturePreviewVue(item)
       PicturePreviewVue({
-        urlList: [
-          'https://file.iviewui.com/images/image-demo-1.jpg',
-          'https://file.iviewui.com/images/image-demo-2.jpg',
-          'https://file.iviewui.com/images/image-demo-3.jpg',
-          'https://file.iviewui.com/images/image-demo-4.jpg',
-          'https://file.iviewui.com/images/image-demo-5.jpg',
-          'https://file.iviewui.com/images/image-demo-6.jpg'
-        ],
-        initialIndex: 2
+        url: url,
+        urlList: this.list
       })
     }
   }
@@ -47,5 +54,19 @@ export default {
 .pic {
   width: 200px;
   cursor: pointer;
+}
+.ul {
+  display: flex;
+  .li {
+    width: 200px;
+    height: 160px;
+    margin: 0 10px;
+    cursor: pointer;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
 }
 </style>

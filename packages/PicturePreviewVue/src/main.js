@@ -38,7 +38,6 @@ const ImagePreviewDOM = function (options) {
 }
 
 ImagePreviewDOM.close = function (id, userOnClose) {
-  
   const len = instances.length
   let index = -1
   for (let i = 0; i < len; i++) {

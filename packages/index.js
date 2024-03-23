@@ -16,6 +16,12 @@ export default function PicturePreviewVue(data) {
       urlList: [_data],
       initialIndex: 0
     }
+  } else if (Object.prototype.toString.call(data) === '[object Object]') {
+    const index = data.urlList.indexOf(data.url)
+    _data = {
+      urlList: data.urlList,
+      initialIndex: index
+    }
   }
   ImagePreviewUtil(_data)
 }

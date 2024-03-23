@@ -8,7 +8,7 @@
       class="image_preview_close"
       @click="close"
     >
-      x
+      <span class="iconfont icon-guanbi-tupianyulan" />
     </div>
     <div
       ref="imagePreviewWrapper"
@@ -32,41 +32,43 @@
       </div>
       <div class="image_preview_actions">
         <div class="image_preview_actions_inner">
-          <span @click="handleActions('zoomOut')">
-            zoomOut
-          </span>
-          <span @click="handleActions('zoomIn')">
-            zoomIn
-          </span>
           <span
-            :class="mode.name"
+            class="iconfont icon-tupianyulan-suoxiao"
+            @click="handleActions('zoomOut')"
+          />
+          <span
+            class="iconfont icon-tupianyulan-fangda"
+            @click="handleActions('zoomIn')"
+          />
+          <span
+            class="iconfont"
+            :class="mode.name === 'contain' ? 'icon-tupianyulan-zhengchangbili' : 'icon-tupianyulan-1bi1'"
             @click="toggleMode"
-          >
-            mode
-          </span>
-          <span @click="handleActions('anticlocelise')">
-            anticlocelise
-          </span>
-          <span @click="handleActions('clocelise')">
-            clocelise
-          </span>
+          />
+          <span
+            class="iconfont icon-tupianyulan-zuoxuanzhuan"
+            @click="handleActions('anticlocelise')"
+          />
+          <span
+            class="iconfont icon-tupianyulan-youxuanzhuan"
+            @click="handleActions('clocelise')"
+          />
         </div>
       </div>
-      <div class="image_preview_toggle">
+      <div
+        v-if="urlList.length > 1"
+        class="image_preview_toggle"
+      >
         <span
-          class="image_preview_toggle_btn image_preview_toggle_btn_prev"
+          class="iconfont icon-a-tupianyulan-zuoqie image_preview_toggle_btn image_preview_toggle_btn_prev"
           :class="{ 'is-disabled': !infinite && isFirst }"
           @click="prev"
-        >
-          prev
-        </span>
+        />
         <span
-          class="image_preview_toggle_btn image_preview_toggle_btn_next"
+          class="iconfont icon-a-tupianyulan-youqie image_preview_toggle_btn image_preview_toggle_btn_next"
           :class="{ 'is-disabled': !infinite && isLast }"
           @click="next"
-        >
-          next
-        </span>
+        />
       </div>
     </div>
   </div>
@@ -338,10 +340,10 @@ export default {
       this.loading = false
       e.target.alt = '加载失败'
     },
-    //缩放，勾股定理方法-求两点之间的距离
+    // 缩放，勾股定理方法-求两点之间的距离
     getDistance(p1, p2) {
-      const x = p2.pageX - p1.pageX,
-        y = p2.pageY - p1.pageY
+      const x = p2.pageX - p1.pageX
+      const y = p2.pageY - p1.pageY
       return Math.sqrt(x * x + y * y)
     },
     // 图片缩放
@@ -437,9 +439,60 @@ export default {
 }
 </script>
 
+<style>
+@font-face {
+  font-family: 'iconfont';
+  src: url('./font/iconfont.ttf') format('truetype');
+}
+
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-guanbi-tupianyulan:before {
+  content: '\e628';
+}
+
+.icon-tupianyulan-suoxiao:before {
+  content: '\e8ac';
+}
+
+.icon-tupianyulan-fangda:before {
+  content: '\e8ad';
+}
+
+.icon-a-tupianyulan-youqie:before {
+  content: '\e828';
+}
+
+.icon-a-tupianyulan-zuoqie:before {
+  content: '\e829';
+}
+
+.icon-tupianyulan-youxuanzhuan:before {
+  content: '\e667';
+}
+
+.icon-tupianyulan-1bi1:before {
+  content: '\e668';
+}
+
+.icon-tupianyulan-zhengchangbili:before {
+  content: '\e669';
+}
+
+.icon-tupianyulan-zuoxuanzhuan:before {
+  content: '\e66a';
+}
+</style>
 <style lang="scss">
 .image_preview_container {
   position: fixed;
+  z-index: 999;
   top: 0;
   left: 0;
   overflow: hidden;
@@ -465,6 +518,14 @@ export default {
     right: 50px;
     cursor: pointer;
     user-select: none;
+    span {
+      font-size: 18px;
+      padding: 10px;
+      cursor: pointer;
+      color: #ffffff;
+      border-radius: 50%;
+      background-color: #606266;
+    }
   }
   .image_preview_wrapper {
     position: fixed;
@@ -490,19 +551,29 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-around;
+        padding: 10px 4px;
+        border-radius: 20px;
+        background-color: #606266;
         span {
+          font-size: 24px;
+          font-weight: bold;
+          margin: 0 10px;
           cursor: pointer;
-          color: #fff;
+          color: #ffffff;
         }
       }
     }
     .image_preview_toggle {
       user-select: none;
       .image_preview_toggle_btn {
+        font-size: 32px;
         position: absolute;
         top: 50%;
+        padding: 6px;
         cursor: pointer;
-        color: #fff;
+        color: #ffffff;
+        border-radius: 50%;
+        background-color: #606266;
         &.image_preview_toggle_btn_prev {
           left: 40px;
           transform: translateY(-50%);
@@ -510,6 +581,10 @@ export default {
         &.image_preview_toggle_btn_next {
           right: 40px;
           transform: translateY(-50%);
+        }
+        &.is-disabled {
+          cursor: not-allowed;
+          opacity: 0.25;
         }
       }
     }
