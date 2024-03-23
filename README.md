@@ -1,8 +1,8 @@
 # 图片预览功能，兼容移动端单指拖动，双指缩放功能 
 
-picture-preview-vue 
+picture-preview-vue
 
-![]()
+![](https://p.ipic.vip/cjifpn.png)
 
 [Demo](https://liuzhenghe30265.github.io/picture-preview-vue)
 
