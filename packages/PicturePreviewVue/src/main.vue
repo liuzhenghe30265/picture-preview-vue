@@ -2,20 +2,20 @@
   <!-- eslint-disable vue/no-use-v-if-with-v-for -->
   <div
     v-show="visible"
-    class="image_preview_container"
+    class="picture_preview_container"
   >
     <div
-      class="image_preview_close"
+      class="picture_preview_close"
       @click="close"
     >
       <span class="iconfont icon-guanbi-tupianyulan" />
     </div>
     <div
-      ref="imagePreviewWrapper"
+      ref="picturePreviewWrapper"
       tabindex="-1"
-      class="image_preview_wrapper"
+      class="picture_preview_wrapper"
     >
-      <div class="image_preview_canvas">
+      <div class="picture_preview_canvas">
         <img
           v-for="(url, i) in urlList"
           v-if="i === index"
@@ -30,8 +30,8 @@
           @touchend="handleMouseUpMobile"
         >
       </div>
-      <div class="image_preview_actions">
-        <div class="image_preview_actions_inner">
+      <div class="picture_preview_actions">
+        <div class="picture_preview_actions_inner">
           <span
             class="iconfont icon-tupianyulan-suoxiao"
             @click="handleActions('zoomOut')"
@@ -57,15 +57,15 @@
       </div>
       <div
         v-if="urlList.length > 1"
-        class="image_preview_toggle"
+        class="picture_preview_toggle"
       >
         <span
-          class="iconfont icon-a-tupianyulan-zuoqie image_preview_toggle_btn image_preview_toggle_btn_prev"
+          class="iconfont icon-a-tupianyulan-zuoqie picture_preview_toggle_btn picture_preview_toggle_btn_prev"
           :class="{ 'is-disabled': !infinite && isFirst }"
           @click="prev"
         />
         <span
-          class="iconfont icon-a-tupianyulan-youqie image_preview_toggle_btn image_preview_toggle_btn_next"
+          class="iconfont icon-a-tupianyulan-youqie picture_preview_toggle_btn picture_preview_toggle_btn_next"
           :class="{ 'is-disabled': !infinite && isLast }"
           @click="next"
         />
@@ -206,7 +206,7 @@ export default {
 
     // add tabindex then wrapper can be focusable via Javascript
     // focus wrapper so arrow key can't cause inner scroll behavior underneath
-    this.$refs['imagePreviewWrapper'].focus()
+    this.$refs['picturePreviewWrapper'].focus()
   },
   beforeDestroy() {},
 
@@ -489,10 +489,10 @@ export default {
   content: '\e66a';
 }
 </style>
-<style lang="scss">
-.image_preview_container {
+<style lang="scss" scoped>
+.picture_preview_container {
   position: fixed;
-  z-index: 999;
+  z-index: 99999;
   top: 0;
   left: 0;
   overflow: hidden;
@@ -510,7 +510,7 @@ export default {
     opacity: 0.5;
     background: #000000;
   }
-  .image_preview_close {
+  .picture_preview_close {
     font-size: 24px;
     position: absolute;
     z-index: 999;
@@ -527,13 +527,13 @@ export default {
       background-color: #606266;
     }
   }
-  .image_preview_wrapper {
+  .picture_preview_wrapper {
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    .image_preview_canvas {
+    .picture_preview_canvas {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -541,13 +541,13 @@ export default {
       height: 100%;
       user-select: none;
     }
-    .image_preview_actions {
+    .picture_preview_actions {
       position: absolute;
       bottom: 30px;
       left: 50%;
       user-select: none;
       transform: translateX(-50%);
-      .image_preview_actions_inner {
+      .picture_preview_actions_inner {
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -563,9 +563,9 @@ export default {
         }
       }
     }
-    .image_preview_toggle {
+    .picture_preview_toggle {
       user-select: none;
-      .image_preview_toggle_btn {
+      .picture_preview_toggle_btn {
         font-size: 32px;
         position: absolute;
         top: 50%;
@@ -574,11 +574,11 @@ export default {
         color: #ffffff;
         border-radius: 50%;
         background-color: #606266;
-        &.image_preview_toggle_btn_prev {
+        &.picture_preview_toggle_btn_prev {
           left: 40px;
           transform: translateY(-50%);
         }
-        &.image_preview_toggle_btn_next {
+        &.picture_preview_toggle_btn_next {
           right: 40px;
           transform: translateY(-50%);
         }
